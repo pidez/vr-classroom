@@ -72,16 +72,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if(photonView.IsMine) {
-            #if !UNITY_DEVICE_SIMULATOR
-                Debug.Log("Using headset");
-                MapPosition(head, XRNode.Head);
-                MapPosition(leftHand, XRNode.LeftHand);
-                MapPosition(rightHand, XRNode.RightHand);
-            #else
-                MapPosition(head, XRHead.transform);
-                MapPosition(leftHand, XRleftHand.transform);
-                MapPosition(rightHand, XRrightHand.transform);
-            #endif
+            mapPosition(head, XRHead.transform);
+            mapPosition(leftHand, XRleftHand.transform);
+            mapPosition(rightHand, XRrightHand.transform);
 
             if(playerNameCanvas != null)
                 MapPosition(playerNameCanvas.transform, head, 0, playerNameOffset, 0);
@@ -91,16 +84,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         recorder.VoiceDetectionThreshold = 0.02f;
     }
 
-
-    #if !UNITY_DEVICE_SIMULATOR
-    void MapPosition(Transform target, XRNode node) {
-        InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 position);
-        InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion rotation);
-
-        target.position = position;
-        target.rotation = rotation;
+    // Assigns to the prefab components (head, left and right hands) the position and the rotation of the XROrigin
+    void mapPosition(Transform target, Transform rigTransform) {
+        target.position = rigTransform.position;
+        target.rotation = rigTransform.rotation;
     }
-    #endif
 
     /*Metodo che mappa la posizione di target in quella di other, con un eventuale offset sulla posizione*/
     void MapPosition(Transform target, Transform other, float offsetX = 0f, float offsetY = 0f, float offsetZ = 0f) {
@@ -118,7 +106,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private void FindAndBindXRComponents() {
         XROrigin = GameObject.Find("XR Origin");
         if(photonView.IsMine)
-            MapPosition(XROrigin.transform, gameObject.transform);
+            mapPosition(XROrigin.transform, gameObject.transform);
 
         XRHead = GameObject.Find("Main Camera");
         XRleftHand = GameObject.Find("LeftHand Controller");
