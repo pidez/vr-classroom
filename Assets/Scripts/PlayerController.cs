@@ -11,6 +11,9 @@ using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
+using Unity.VisualScripting;
+using System;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public Transform head;
     public Transform leftHand;
     public Transform rightHand;
+    public Transform line;
 
     public Image speakerImage;
 
@@ -31,6 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private GameObject XRHead;
     private GameObject XRleftHand;
     private GameObject XRrightHand;
+    private GameObject LineVisual;
 
     private PhotonVoiceView photonVoiceView;
     private Recorder recorder;
@@ -63,7 +68,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
 
     void Update() {
-
+        
         //Critical: Quando si carica una nuova scena bisogna prima di tutto assicurarsi
         //di avere i riferimenti ai componenti dell'XR Origin, visto che questo
         //Cambia da una scena all'altra.
@@ -72,35 +77,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if(photonView.IsMine) {
-            #if !UNITY_DEVICE_SIMULATOR
-                Debug.Log("Using headset");
-                MapPosition(head, XRNode.Head);
-                MapPosition(leftHand, XRNode.LeftHand);
-                MapPosition(rightHand, XRNode.RightHand);
-            #else
-                MapPosition(head, XRHead.transform);
-                MapPosition(leftHand, XRleftHand.transform);
-                MapPosition(rightHand, XRrightHand.transform);
-            #endif
+            mapPosition(head, XRHead.transform);
+            mapPosition(leftHand, XRleftHand.transform);
+            mapPosition(rightHand, XRrightHand.transform);
+            mapPosition(line, LineVisual.transform);
 
             if(playerNameCanvas != null)
                 MapPosition(playerNameCanvas.transform, head, 0, playerNameOffset, 0);
         }
-
+        
         //E' una cosa atroce, ma per qualche motivo la soglia continua a tornare a zero.
         recorder.VoiceDetectionThreshold = 0.02f;
     }
 
-
-    #if !UNITY_DEVICE_SIMULATOR
-    void MapPosition(Transform target, XRNode node) {
-        InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 position);
-        InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion rotation);
-
-        target.position = position;
-        target.rotation = rotation;
+    // Assigns to the prefab components (head, left and right hands) the position and the rotation of the XROrigin
+    void mapPosition(Transform target, Transform rigTransform) {
+        target.position = rigTransform.position;
+        target.rotation = rigTransform.rotation;
     }
-    #endif
 
     /*Metodo che mappa la posizione di target in quella di other, con un eventuale offset sulla posizione*/
     void MapPosition(Transform target, Transform other, float offsetX = 0f, float offsetY = 0f, float offsetZ = 0f) {
@@ -118,11 +112,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private void FindAndBindXRComponents() {
         XROrigin = GameObject.Find("XR Origin");
         if(photonView.IsMine)
-            MapPosition(XROrigin.transform, gameObject.transform);
+            mapPosition(XROrigin.transform, gameObject.transform);
 
         XRHead = GameObject.Find("Main Camera");
         XRleftHand = GameObject.Find("LeftHand Controller");
         XRrightHand = GameObject.Find("RightHand Controller");
+        LineVisual = GameObject.Find("LeftRay");
+        if(LineVisual != null)
+        {
+            Debug.Log("linea trovata");
+        }
     }
 
     #region IPunObservable implementation
