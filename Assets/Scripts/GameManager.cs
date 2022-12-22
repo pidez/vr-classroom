@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else {
             if(PlayerController.localPlayerInstance == null) {
                 Debug.Log("GameManager: Instantiating player");
-                PhotonNetwork.Instantiate(playerPrefab.name, GenerateRandomPosition(9f, 1.2f, 9f), Quaternion.identity, 0);
+                PhotonNetwork.Instantiate(playerPrefab.name, GenerateRandomPosition(3f, 1.2f, 3f), Quaternion.identity, 0);
             }
             else {
                 Debug.Log("GameManager: ignoring spawn for player");

@@ -11,6 +11,7 @@ using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -41,9 +42,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         //Get photon voice view instance
         photonVoiceView = GetComponent<PhotonVoiceView>();
-        recorder = GetComponentInChildren<Recorder>();
-
+        recorder = gameObject.GetComponentInChildren<Recorder>();
         recorder.RecordingEnabled = photonView.IsMine;
+
 
         if(photonView.IsMine){
             //Critical: teniamo traccia delle istanze dei giocatori gia spawnati
@@ -82,6 +83,16 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         //E' una cosa atroce, ma per qualche motivo la soglia continua a tornare a zero.
         recorder.VoiceDetectionThreshold = 0.02f;
+
+        // TODO - remove after deciding a better way to do it
+        ActionBasedController leftHandController = ActionBasedController.FindObjectsOfType<ActionBasedController>()[1];
+        if (leftHandController != null && leftHandController.activateAction.action.triggered) {
+            muteSelf();
+        }
+    }
+
+    public void muteSelf() {
+        recorder.RecordingEnabled = !recorder.RecordingEnabled;
     }
 
     // Assigns to the prefab components (head, left and right hands) the position and the rotation of the XROrigin

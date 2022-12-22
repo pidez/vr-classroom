@@ -42,11 +42,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6351784186825846802}
   - component: {fileID: 5714809579739493022}
+  - component: {fileID: -1978383984879111002}
   - component: {fileID: 7946799781313239909}
-  - component: {fileID: 2466598134719659281}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -88,6 +88,18 @@ MonoBehaviour:
   rightHand: {fileID: 8974261703306939387}
   speakerImage: {fileID: 4246105270621824642}
   playerNameCanvas: {fileID: 431931077671139938}
+--- !u!114 &-1978383984879111002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371013970502179716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126494ae2a10a34499272ed97a6c9f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7946799781313239909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,18 +126,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2466598134719659281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371013970502179716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 126494ae2a10a34499272ed97a6c9f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3072803520087990145
 GameObject:
   m_ObjectHideFlags: 0
