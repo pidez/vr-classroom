@@ -87,12 +87,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         // TODO - remove after deciding a better way to do it
         ActionBasedController leftHandController = ActionBasedController.FindObjectsOfType<ActionBasedController>()[1];
         if (leftHandController != null && leftHandController.activateAction.action.triggered) {
-            muteSelf();
+            bool result = muteSelf();
         }
     }
 
-    public void muteSelf() {
+    public bool muteSelf() {
         recorder.RecordingEnabled = !recorder.RecordingEnabled;
+        return recorder.RecordingEnabled;
     }
 
     // Assigns to the prefab components (head, left and right hands) the position and the rotation of the XROrigin
