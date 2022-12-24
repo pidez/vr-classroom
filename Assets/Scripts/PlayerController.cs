@@ -11,6 +11,7 @@ using Photon.Voice.PUN;
 using Photon.Voice.Unity;
 
 using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -43,9 +44,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         //Get photon voice view instance
         photonVoiceView = GetComponent<PhotonVoiceView>();
-        recorder = GetComponentInChildren<Recorder>();
-
+        recorder = gameObject.GetComponentInChildren<Recorder>();
         recorder.RecordingEnabled = photonView.IsMine;
+
 
         if(photonView.IsMine){
             //Critical: teniamo traccia delle istanze dei giocatori gia spawnati
@@ -74,16 +75,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if(photonView.IsMine) {
-            #if !UNITY_DEVICE_SIMULATOR
-                Debug.Log("Using headset");
-                MapPosition(head, XRNode.Head);
-                MapPosition(leftHand, XRNode.LeftHand);
-                MapPosition(rightHand, XRNode.RightHand);
-            #else
-                MapPosition(head, XRHead.transform);
-                MapPosition(leftHand, XRleftHand.transform);
-                MapPosition(rightHand, XRrightHand.transform);
-            #endif
+            mapPosition(head, XRHead.transform);
+            mapPosition(leftHand, XRleftHand.transform);
+            mapPosition(rightHand, XRrightHand.transform);
 
             if(playerNameCanvas != null)
                 MapPosition(playerNameCanvas.transform, head, 0, playerNameOffset, 0);
@@ -91,18 +85,24 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         //E' una cosa atroce, ma per qualche motivo la soglia continua a tornare a zero.
         recorder.VoiceDetectionThreshold = 0.02f;
+
+        // TODO - remove after deciding a better way to do it
+        ActionBasedController leftHandController = ActionBasedController.FindObjectsOfType<ActionBasedController>()[1];
+        if (leftHandController != null && leftHandController.activateAction.action.triggered) {
+            bool result = muteSelf();
+        }
     }
 
-
-    #if !UNITY_DEVICE_SIMULATOR
-    void MapPosition(Transform target, XRNode node) {
-        InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 position);
-        InputDevices.GetDeviceAtXRNode(node).TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion rotation);
-
-        target.position = position;
-        target.rotation = rotation;
+    public bool muteSelf() {
+        recorder.RecordingEnabled = !recorder.RecordingEnabled;
+        return recorder.RecordingEnabled;
     }
-    #endif
+
+    // Assigns to the prefab components (head, left and right hands) the position and the rotation of the XROrigin
+    void mapPosition(Transform target, Transform rigTransform) {
+        target.position = rigTransform.position;
+        target.rotation = rigTransform.rotation;
+    }
 
     /*Metodo che mappa la posizione di target in quella di other, con un eventuale offset sulla posizione*/
     void MapPosition(Transform target, Transform other, float offsetX = 0f, float offsetY = 0f, float offsetZ = 0f) {
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private void FindAndBindXRComponents() {
         XROrigin = GameObject.Find("XR Origin");
         if(photonView.IsMine)
-            MapPosition(XROrigin.transform, gameObject.transform);
+            mapPosition(XROrigin.transform, gameObject.transform);
 
         XRHead = GameObject.Find("Main Camera");
         XRleftHand = GameObject.Find("LeftHand Controller");
