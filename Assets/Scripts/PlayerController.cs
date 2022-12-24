@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public Transform rightHand;
 
     public Image speakerImage;
+    public Image teacherImage;
 
     public Canvas playerNameCanvas;
 
@@ -39,6 +40,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private bool isTeacher;
 
     private float playerNameOffset = 0.5f;
+
+    public PlayerController() {
+        isTeacher = false;
+    }
 
     void Awake() {
 
@@ -65,7 +70,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
+
     void Update() {
+
+        if(teacherImage.enabled != isTeacher) {
+            teacherImage.enabled = isTeacher;
+        }
 
         //Critical: Quando si carica una nuova scena bisogna prima di tutto assicurarsi
         //di avere i riferimenti ai componenti dell'XR Origin, visto che questo
@@ -96,6 +106,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public bool muteSelf() {
         recorder.RecordingEnabled = !recorder.RecordingEnabled;
         return recorder.RecordingEnabled;
+    }
+
+
+    //Questo metodo è fatto per essere chiamato da un altro componente, per stabilire
+    //se questa istanza sarà teacher oppure no.
+    //purtroppo non basta vedere chi è il masterclient, infatti se il teacher dovesse
+    //lasciare la stanza per qualsiasi motivo uno studente diverrebbe il master client.
+    public void setTeacher() {
+        isTeacher = true;
+    }
+
+    public bool IsTeacher() {
+        return isTeacher;
     }
 
     // Assigns to the prefab components (head, left and right hands) the position and the rotation of the XROrigin

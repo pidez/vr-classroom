@@ -17,7 +17,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         else {
             if(PlayerController.localPlayerInstance == null) {
                 Debug.Log("GameManager: Instantiating player");
-                PhotonNetwork.Instantiate(playerPrefab.name, GenerateRandomPosition(3f, 1.2f, 3f), Quaternion.identity, 0);
+                GameObject newPlayer = PhotonNetwork.Instantiate(playerPrefab.name, GenerateRandomPosition(3f, 1.2f, 3f), Quaternion.identity, 0);
+                if (PhotonNetwork.CurrentRoom.PlayerCount <= 1) {
+                    //Se si è i primi ad entrare, allora si è il docente
+                    newPlayer.GetComponent<PlayerController>().setTeacher();
+                }
             }
             else {
                 Debug.Log("GameManager: ignoring spawn for player");
