@@ -15,30 +15,51 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private string gameVersion = "0.1";
 
-    [SerializeField]
-    public Button playButton;
+    private bool isTeacher;
 
     [SerializeField]
-    public TMP_InputField playerNameInputField;
+    public Button playAsStudentButton;
+    public Button playAsTeacherButton;
+
+    [SerializeField]
+    public TMP_InputField usernameInputField;
+    public TMP_InputField passwordInputField;
 
 
     void Awake() {
         // #Critical
         // this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        isTeacher = false;
     }
 
     void Start() {
-        playButton.onClick.AddListener(Connect);
+        playAsTeacherButton.onClick.AddListener(ConnectAsTeacher);
+        playAsStudentButton.onClick.AddListener(Connect);
     }
 
+    public void ConnectAsTeacher() {
+        string username = usernameInputField.text;
+        string password = passwordInputField.text;
+        if(AuthManager.Instance.AuthenticateAsTeacher(username, password)) {
+            isTeacher = true;
+            Connect();
+        }
+    }
     public void Connect() {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.GameVersion = gameVersion;
     }
+
     public override void OnConnectedToMaster() {
         Debug.Log("Launcher: Connected to master server.");
-        PhotonNetwork.NickName = playerNameInputField.text;
-        SceneManager.LoadScene(1);
+        PhotonNetwork.NickName = usernameInputField.text;
+        if(isTeacher){
+            SceneManager.LoadScene(1);
+        }
+        else {
+            SceneManager.LoadScene(2);
+        }
     }
 }

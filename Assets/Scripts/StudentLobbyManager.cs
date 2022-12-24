@@ -9,18 +9,11 @@ using Photon.Realtime;
 
 using TMPro;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class StudentLobbyManager : MonoBehaviourPunCallbacks
 {
 
 
-    [SerializeField]
-    public Button createRoomButton;
 
-    [SerializeField]
-    public TMP_InputField roomNameInputField;
-
-    [SerializeField]
-    private byte maxPlayersPerRoom = 2;
 
     ///Set in editor: prefab del bottone/UI da mostrare nella scrollview con lista delle stanze.
     ///Successivamente sarà sufficiente modificare questo per una UI più gradevole.
@@ -31,21 +24,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField]
     public Transform contentParent;
 
+    [SerializeField]
+    public TMP_Text lobbyMessage;
+
     private List<RoomItem> cachedRoomList = new List<RoomItem>();
 
     void Start() {
         PhotonNetwork.JoinLobby();
-        createRoomButton.onClick.AddListener(HelpCreateRoom);
+
+        lobbyMessage.text = PhotonNetwork.NickName + ", as a student";
     }
 
 
     #region private methods
-
-    private void HelpCreateRoom() {
-        string roomName = roomNameInputField.text;
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions {MaxPlayers = maxPlayersPerRoom });
-    }
-
 
     
     /*

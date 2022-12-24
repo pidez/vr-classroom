@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private PhotonVoiceView photonVoiceView;
     private Recorder recorder;
 
+    private bool isTeacher;
+
     private float playerNameOffset = 0.5f;
 
     void Awake() {
