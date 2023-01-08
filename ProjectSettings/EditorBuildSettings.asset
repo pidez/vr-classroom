@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GenericRoom.unity
     guid: a5f7a180cf495bf47a90ee71e5f5f7ed
+  - enabled: 1
+    path: Assets/Scenes/SolarSystemRoom.unity
+    guid: 471ee80df84cc534a8cb200f8c9a4441
   - enabled: 0
     path: Assets/Photon/PhotonVoice/Demos/DemoVoicePun/DemoVoicePun-Scene.unity
     guid: a3f3c3b3816924199acba595045624d2
