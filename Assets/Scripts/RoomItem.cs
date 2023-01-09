@@ -9,6 +9,7 @@ using TMPro;
 
 public class RoomItem : MonoBehaviour, IPointerClickHandler
 {
+    readonly string SOLAR_SYSTEM = "SolarSystem";
     public TMP_Text roomName;
     public TMP_Text playersCount;
 
@@ -16,7 +17,11 @@ public class RoomItem : MonoBehaviour, IPointerClickHandler
         Debug.Log("RoomItem: clicked.");
 
         //Si affida alla OnJoinedRoom in LobbyManager
-        PhotonNetwork.JoinRoom(roomName.text);
+        if (roomName.text == SOLAR_SYSTEM) {
+            defaultSolarSystemRoom();
+        } else {
+            PhotonNetwork.JoinRoom(roomName.text);
+        }
     }
 
     public void SetRoomName(string name) {
@@ -34,5 +39,9 @@ public class RoomItem : MonoBehaviour, IPointerClickHandler
 
     public string GetPlayersCount() {
         return playersCount.text;
+    }
+
+    private void defaultSolarSystemRoom() {
+        PhotonNetwork.JoinOrCreateRoom(SOLAR_SYSTEM, new RoomOptions { MaxPlayers = 5 }, TypedLobby.Default);
     }
 }

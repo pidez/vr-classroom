@@ -12,6 +12,8 @@ using TMPro;
 public class TeacherLobbyManager : MonoBehaviourPunCallbacks
 {
 
+    readonly string SOLAR_SYSTEM = "SolarSystem";
+    readonly string SOLAR_SYSTEM_ROOM = "SolarSystemRoom";
 
     [SerializeField]
     public Button createRoomButton;
@@ -39,8 +41,8 @@ public class TeacherLobbyManager : MonoBehaviourPunCallbacks
     void Start() {
         PhotonNetwork.JoinLobby();
         createRoomButton.onClick.AddListener(HelpCreateRoom);
-
         lobbyMessage.text = PhotonNetwork.NickName + ", as a teacher";
+        StartCoroutine(createRoomCoroutine());
     }
 
 
@@ -51,6 +53,28 @@ public class TeacherLobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(roomName, new RoomOptions {MaxPlayers = maxPlayersPerRoom });
     }
 
+    private IEnumerator createRoomCoroutine() {
+        yield return new WaitForSeconds(2);
+        createSolarSystemRoom();
+    }
+
+    private void createSolarSystemRoom() {
+        if (cachedRoomList != null && cachedRoomList.Count > 0) {
+            foreach(RoomItem room in cachedRoomList) {
+                if (room.roomName.text == SOLAR_SYSTEM) {
+                    return;
+                }
+            }
+        }
+        createRoom(SOLAR_SYSTEM, 0, 5);
+    }
+
+    private void createRoom(string name, int playerNumber, byte maxPlayers) {
+        RoomItem newRoom = Instantiate(roomPrefab, contentParent);
+        newRoom.SetRoomName(name);
+        newRoom.SetPlayersCount(playerNumber, maxPlayers);
+        cachedRoomList.Add(newRoom);
+    }
 
     
     /*
@@ -80,10 +104,14 @@ public class TeacherLobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom() {
         Debug.Log(PhotonNetwork.NickName + " joined Room " + PhotonNetwork.CurrentRoom.Name);
 
-        //Se siamo i primi a joinare, viene caricata la scena.
-        //Per i prossimi player il compito è delegato a GameManager.
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
-            PhotonNetwork.LoadLevel("GenericRoom");
+        if (PhotonNetwork.CurrentRoom.Name == SOLAR_SYSTEM) {
+            PhotonNetwork.LoadLevel(SOLAR_SYSTEM_ROOM);
+        } else {
+            //Se siamo i primi a joinare, viene caricata la scena.
+            //Per i prossimi player il compito è delegato a GameManager.
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
+                PhotonNetwork.LoadLevel("GenericRoom");
+            }
         }
     }
 
@@ -106,7 +134,7 @@ public class TeacherLobbyManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause) {
         cachedRoomList.Clear();
     }
-     
+
     #endregion
 
     #region public methods
