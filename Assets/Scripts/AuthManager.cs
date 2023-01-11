@@ -37,6 +37,14 @@ public class AuthManager : MonoBehaviour
             foreach(User user in userCollection.users) {
                 if(string.Compare(user.username, username) == 0 && string.Compare(user.password, password) == 0) {
                     Debug.Log("AuthManager: Authentication successful.");
+
+                    //La presenza di questo oggetto mi dice che un insegnante sta accedendo, in questo modo se si era scollegato
+                    //è possibile renderlo di nuovo master client.
+                    //Il caso limite in cui nello stesso momento uno studente si stia collegando non si pone perchè
+                    //questo oggetto non è condiviso in rete, dunque è visibile solo in locale dalla macchina del docente
+                    GameObject authHelper = new GameObject("AuthHelper");
+                    DontDestroyOnLoad(authHelper);
+
                     return true;
                 }
             }

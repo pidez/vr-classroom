@@ -41,10 +41,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private float playerNameOffset = 0.5f;
 
-    public PlayerController() {
-        isTeacher = false;
-    }
-
     void Awake() {
 
         //Get photon voice view instance
@@ -72,10 +68,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
 
     void Update() {
-
-        if(teacherImage.enabled != isTeacher) {
-            teacherImage.enabled = isTeacher;
-        }
 
         //Critical: Quando si carica una nuova scena bisogna prima di tutto assicurarsi
         //di avere i riferimenti ai componenti dell'XR Origin, visto che questo
@@ -113,8 +105,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     //se questa istanza sarà teacher oppure no.
     //purtroppo non basta vedere chi è il masterclient, infatti se il teacher dovesse
     //lasciare la stanza per qualsiasi motivo uno studente diverrebbe il master client.
-    public void setTeacher() {
-        isTeacher = true;
+    public void SetTeacher(bool isTeacher) {
+        this.isTeacher = isTeacher;
     }
 
     public bool IsTeacher() {
@@ -156,9 +148,11 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             bool IsRecording = photonVoiceView.IsRecording;
             speakerImage.enabled = IsRecording;
             stream.SendNext(IsRecording);
+            stream.SendNext(isTeacher);
         }
         else {
             speakerImage.enabled = (bool) stream.ReceiveNext();
+            teacherImage.enabled = (bool) stream.ReceiveNext();
         }
     }
     #endregion
