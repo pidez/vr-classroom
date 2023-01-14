@@ -9,17 +9,19 @@ using Photon.Realtime;
 
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviourPunCallbacks
 {
 
     public static UIManager Instance { get; private set; }
 
     public UIMessageItem messagePrefab;
-    public Transform contentParent;
-    public GameObject onScreenConsolePrefab;
+    //public Transform contentParent;
+    //public GameObject onScreenConsolePrefab;
+    public Transform contentParent1;
+    public GameObject Impostazioni;
+    //private GameObject onScreenConsoleInstance;
 
-    private GameObject onScreenConsoleInstance;
-
+    /*
     private void Awake() { 
 
         bool beingDestroyed = false;
@@ -30,7 +32,7 @@ public class UIManager : MonoBehaviour
             Destroy(this.gameObject);
             beingDestroyed = true;
         } 
-        else { 
+       else { 
             Instance = this; 
         }
 
@@ -43,20 +45,48 @@ public class UIManager : MonoBehaviour
             }
         }
 
-}
-    void Update()
+    }
+    */
+    private void Start()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            UIMessageItem message = Instantiate(messagePrefab, contentParent);
-            string messageLine = "Ciao";
-            message.SetLine(messageLine);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Impostazioni.SetActive(true);
+            UIMessageItem message = Instantiate(messagePrefab, contentParent1);
+            string messageLine1 = PhotonNetwork.NickName;
+            message.SetLine(messageLine1);
+        }
+
+    }
+    /*void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UIMessageItem message = Instantiate(messagePrefab, contentParent1);
+            //string messageLine = "Ciao";
+            //message.SetLine(messageLine);
+            string messageLine1 = "Ciao";
+            message.SetLine(messageLine1);
         }
     }
+    */
 
-    public void PlayerJoinedMessage(string playerName) {
-        UIMessageItem message = Instantiate(messagePrefab, contentParent);
-        string messageLine = playerName + " joined the room";
+    public void PlayerJoinedMessage(string playerName)
+    {
+        UIMessageItem message = Instantiate(messagePrefab, contentParent1);
+        string messageLine = playerName;
         message.SetLine(messageLine);
     }
 
+    public void PlayerLeftMessage(string playerName)
+    {
+        GameObject[] Messaggi = GameObject.FindGameObjectsWithTag("Message");
+        for(int i = 0; i < Messaggi.Length; i++)
+        {
+            if (Messaggi[i].GetComponent<TMP_Text>().text == playerName) 
+            {
+                Destroy(Messaggi[i]);            
+            }
+        }
+    }
 }

@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private GameObject XRrightHand;
 
     private PhotonVoiceView photonVoiceView;
-    private Recorder recorder;
+    public Recorder recorder;
 
     private bool isTeacher;
 

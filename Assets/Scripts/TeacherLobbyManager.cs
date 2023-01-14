@@ -50,7 +50,14 @@ public class TeacherLobbyManager : MonoBehaviourPunCallbacks
 
     private void HelpCreateRoom() {
         string roomName = roomNameInputField.text;
-        PhotonNetwork.CreateRoom(roomName, new RoomOptions {MaxPlayers = maxPlayersPerRoom });
+        if (roomName != null)
+        {
+            PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+        }
+        else
+        {
+            Debug.Log("Nome Stanza non valido");
+        }
     }
 
     private IEnumerator createRoomCoroutine() {
