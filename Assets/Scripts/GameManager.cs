@@ -8,7 +8,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-
+    readonly string SOLAR_SYSTEM = "SolarSystem";
     public GameObject playerPrefab;
     public GameObject panelPrefab1;
     public GameObject panelPrefab2;
@@ -24,7 +24,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         else {
             if(PlayerController.localPlayerInstance == null) {
                 Debug.Log("GameManager: Instantiating player");
-                GameObject newPlayer = PhotonNetwork.Instantiate(playerPrefab.name, GenerateRandomPosition(3f, 1.2f, 3f), Quaternion.identity, 0);
+                Vector3 spawnPos;
+                if (PhotonNetwork.CurrentRoom.Name == SOLAR_SYSTEM) {
+                    spawnPos = GenerateRandomPositionOnXAxis(3f, 0, -25);
+                } else {
+                    spawnPos = GenerateRandomPosition(3f, 1.2f, 3f);
+
+                }
+                GameObject newPlayer = PhotonNetwork.Instantiate(playerPrefab.name, spawnPos, Quaternion.identity, 0);
                 if (panelPrefab1 && panelPrefab2 != null)
                 {
                     if (PhotonNetwork.IsMasterClient)
@@ -67,6 +74,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         return new Vector3(Random.Range(-limitX, limitX), Y, Random.Range(-limitZ, limitZ));
     }
 
+    private Vector3 GenerateRandomPositionOnXAxis(float limitX, float Y, float Z) {
+        return new Vector3(Random.Range(-limitX, limitX), Y, Z);
+    }
 
     #endregion
 

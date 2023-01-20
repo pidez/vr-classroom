@@ -12,7 +12,8 @@ using TMPro;
 public class StudentLobbyManager : MonoBehaviourPunCallbacks
 {
 
-
+    readonly string SOLAR_SYSTEM = "SolarSystem";
+    readonly string SOLAR_SYSTEM_ROOM = "SolarSystemRoom";
 
 
     ///Set in editor: prefab del bottone/UI da mostrare nella scrollview con lista delle stanze.
@@ -33,6 +34,7 @@ public class StudentLobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
 
         lobbyMessage.text = PhotonNetwork.NickName + ", as a student";
+        StartCoroutine(createRoomCoroutine());
     }
 
 
@@ -59,6 +61,29 @@ public class StudentLobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private IEnumerator createRoomCoroutine() {
+        yield return new WaitForSeconds(2);
+        createSolarSystemRoom();
+    }
+
+    private void createSolarSystemRoom() {
+        if (cachedRoomList != null && cachedRoomList.Count > 0) {
+            foreach(RoomItem room in cachedRoomList) {
+                if (room.roomName.text == SOLAR_SYSTEM) {
+                    return;
+                }
+            }
+        }
+        createRoom(SOLAR_SYSTEM, 0, 5);
+    }
+
+    private void createRoom(string name, int playerNumber, byte maxPlayers) {
+        RoomItem newRoom = Instantiate(roomPrefab, contentParent);
+        newRoom.SetRoomName(name);
+        newRoom.SetPlayersCount(playerNumber, maxPlayers);
+        cachedRoomList.Add(newRoom);
+    }
+
     #endregion
 
     #region Pun callbacks
@@ -68,8 +93,14 @@ public class StudentLobbyManager : MonoBehaviourPunCallbacks
 
         //Se siamo i primi a joinare, viene caricata la scena.
         //Per i prossimi player il compito è delegato a GameManager.
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
-            PhotonNetwork.LoadLevel("GenericRoom");
+        if (PhotonNetwork.CurrentRoom.Name == SOLAR_SYSTEM) {
+            PhotonNetwork.LoadLevel(SOLAR_SYSTEM_ROOM);
+        } else {
+            //Se siamo i primi a joinare, viene caricata la scena.
+            //Per i prossimi player il compito è delegato a GameManager.
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
+                PhotonNetwork.LoadLevel("GenericRoom");
+            }
         }
     }
 
