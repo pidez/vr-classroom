@@ -19,6 +19,7 @@ public class UserCollection {
 
 public class AuthManager : MonoBehaviour
 {
+    private readonly string pathToJson = "/Auth/auth.json";
     private UserCollection userCollection;
     public static AuthManager Instance {get; private set;}
 
@@ -60,7 +61,7 @@ public class AuthManager : MonoBehaviour
     #region private methods
 
     private void GetAuthorizedUsers() {
-        string filename = "Assets/Auth/auth.json";
+        string filename = Application.streamingAssetsPath + pathToJson;
         string jsonString = File.ReadAllText(filename);
         userCollection = JsonUtility.FromJson<UserCollection>(jsonString);
     }
