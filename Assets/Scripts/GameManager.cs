@@ -86,7 +86,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player other)
     {
         Debug.LogFormat("GameManager: {0} entered the room.", other.NickName);
-        if (PhotonNetwork.IsMasterClient)
+        // Check on uIManager needed because in SolarSystemRoom there isn't the canvas and it caused a NullPointerException
+        if (PhotonNetwork.IsMasterClient && uIManager != null)
         {
             Debug.Log($"pippo:{other.NickName}");
             uIManager.PlayerJoinedMessage(other.NickName);
