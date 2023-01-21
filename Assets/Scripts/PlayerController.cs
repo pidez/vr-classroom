@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private PhotonVoiceView photonVoiceView;
     public Recorder recorder;
+    public Speaker speaker;
 
     private bool isTeacher;
 
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         photonVoiceView = GetComponent<PhotonVoiceView>();
         recorder = gameObject.GetComponentInChildren<Recorder>();
         recorder.RecordingEnabled = photonView.IsMine;
+        speaker = gameObject.GetComponentInChildren<Speaker>();
 
 
         if(photonView.IsMine){
@@ -88,16 +90,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         //E' una cosa atroce, ma per qualche motivo la soglia continua a tornare a zero.
         recorder.VoiceDetectionThreshold = 0.02f;
 
-        // TODO - remove after deciding a better way to do it
-        ActionBasedController leftHandController = ActionBasedController.FindObjectsOfType<ActionBasedController>()[1];
-        if (leftHandController != null && leftHandController.activateAction.action.triggered) {
-            bool result = muteSelf();
-        }
     }
 
-    public bool muteSelf() {
-        recorder.RecordingEnabled = !recorder.RecordingEnabled;
-        return recorder.RecordingEnabled;
+    public bool mutePlayer() {
+        AudioSource source = speaker.GetComponent<AudioSource>();
+        bool isMuted = false;
+        if (source != null) {
+            Debug.Log("[PlayerController: mutePlayer] - AudioSource found.");
+            source.mute = !source.mute;
+            isMuted = source.mute;
+        } else {
+            Debug.LogError("[PlayerController: mutePlayer] - AudioSource not found!");
+        }
+        return isMuted;
     }
 
 

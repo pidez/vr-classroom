@@ -9,22 +9,6 @@ using UnityEngine.UI;
 public class NetworkAudioManager : MonoBehaviourPunCallbacks
 {
 
-    // solo per test muteAll
-    public Button button;
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (button != null) {
-            if (PhotonNetwork.IsMasterClient) {
-                button.onClick.AddListener(() => {
-                    bool result = muteAllSpeakers();
-                });
-            }
-        } else {
-            Debug.Log("Button NOT found");
-        }
-    }
-
     // se si vuole dare la possibilità agli utenti di creare propri gruppi vocali, il metodo seguente potrebbe impedire questa possibilità
     public bool muteAllSpeakers() {
         // Non posso usare il fatto che la funzione viene eseguita da tutti perché in realtà è solo il masterClient che può mutare tutti

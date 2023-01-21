@@ -288,7 +288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1462213617121843899
 RectTransform:
   m_ObjectHideFlags: 0
@@ -569,6 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: {fileID: 3544777562529818326}
+  btnMsg: {fileID: 1577163041576125973}
 --- !u!1 &6212091993419116295
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,43 +8,27 @@ using TMPro;
 public class MuteUnmute : MonoBehaviourPunCallbacks
 {
     public TMP_Text username;
+    
+    [SerializeField]
+    private TMP_Text btnMsg;
 
     public void Mute() 
     {
         GameObject[] Giocatori = GameObject.FindGameObjectsWithTag("Player");
         for (int i = 0; i < Giocatori.Length; i++)
         {
-            Debug.Log("Stampato " + Giocatori[i].GetComponent<PhotonView>().Owner.NickName);
-            if (Giocatori[i].GetComponent<PhotonView>().Owner.NickName == username.text)
-            {
-                Debug.Log("sono entrato");
-                if (Giocatori[i].GetComponent<PlayerController>().recorder.RecordingEnabled)
-                {
-                    Giocatori[i].GetComponent<PlayerController>().muteSelf();
+            if (Giocatori[i].GetComponent<PhotonView>().Owner.NickName == username.text) {
+                Debug.Log("Muting player: " + username.text);
+                bool isMuted = Giocatori[i].GetComponent<PlayerController>().mutePlayer();
+                if (isMuted) {
+                    btnMsg.text = "Unmute";
+                } else {
+                    btnMsg.text = "Mute";
+
                 }
             }
-            Debug.Log(" " + i);
         }
 
-    }
-
-    // Update is called once per frame
-    public void Unmute()
-    {
-        GameObject[] Giocatori = GameObject.FindGameObjectsWithTag("Player");
-        for (int i = 0; i < Giocatori.Length; i++)
-        {
-            Debug.Log("Stampato " + Giocatori[i].GetComponent<PhotonView>().Owner.NickName);
-            if (Giocatori[i].GetComponent<PhotonView>().Owner.NickName == username.text)
-            {
-                Debug.Log("sono entrato");
-                if (!Giocatori[i].GetComponent<PlayerController>().recorder.RecordingEnabled)
-                {
-                    Giocatori[i].GetComponent<PlayerController>().muteSelf();
-                }
-            }
-            Debug.Log(" " + i);
-        }
     }
 
 }
