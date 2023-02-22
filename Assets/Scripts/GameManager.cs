@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.CurrentRoom.Name == SOLAR_SYSTEM) {
                     spawnPos = GenerateRandomPositionOnXAxis(3f, 0, -25);
                 } else {
-                    spawnPos = GenerateRandomPosition(3f, 1.2f, 3f);
+                    spawnPos = GenerateRandomPosition(3f, 1.8f, 3f);
 
                 }
                 GameObject newPlayer = PhotonNetwork.Instantiate(playerPrefab.name, spawnPos, Quaternion.identity, 0);

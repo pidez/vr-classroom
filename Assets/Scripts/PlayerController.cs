@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public Recorder recorder;
     public Speaker speaker;
 
+    public PhotonView PV;
+
     private bool isTeacher;
 
     private float playerNameOffset = 0.5f;
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         DontDestroyOnLoad(this.gameObject);
 
         //Devo posizionare XR Origin dove è stato spawnato l'avatar
-        FindAndBindXRComponents();
+        //FindAndBindXRComponents();
     }
 
 
@@ -92,19 +94,12 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     }
 
-    public bool mutePlayer() {
-        AudioSource source = speaker.GetComponent<AudioSource>();
-        bool isMuted = false;
-        if (source != null) {
-            Debug.Log("[PlayerController: mutePlayer] - AudioSource found.");
-            source.mute = !source.mute;
-            isMuted = source.mute;
-        } else {
-            Debug.LogError("[PlayerController: mutePlayer] - AudioSource not found!");
-        }
-        return isMuted;
-    }
 
+    public bool mutePlayer(bool IsMuted)
+    {
+       PV.RPC("mutePlayerRPC", RpcTarget.AllBuffered);
+       return !IsMuted;
+    }
 
     //Questo metodo è fatto per essere chiamato da un altro componente, per stabilire
     //se questa istanza sarà teacher oppure no.
@@ -122,15 +117,26 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     void mapPosition(Transform target, Transform rigTransform) {
         target.position = rigTransform.position;
         target.rotation = rigTransform.rotation;
+        //target.Rotate(-90, 0, 0);
     }
-
+    void mapPosition2(Transform target, Transform rigTransform)
+    {
+        target.position = rigTransform.position + new Vector3(0, 2, 0);
+        target.rotation = rigTransform.rotation;
+    }
+    void mapPosition1(Transform target, Transform rigTransform)
+    {
+        target.position = rigTransform.position - new Vector3(0, 2f, 0);
+        target.rotation = rigTransform.rotation;
+        target.Rotate(-90, 0, 0);   
+    }
     /*Metodo che mappa la posizione di target in quella di other, con un eventuale offset sulla posizione*/
     void MapPosition(Transform target, Transform other, float offsetX = 0f, float offsetY = 0f, float offsetZ = 0f) {
 
         target.position = other.position + new Vector3(offsetX, offsetY, offsetZ);
         if(other.gameObject == XRrightHand || other.gameObject == XRleftHand) {
             target.rotation = other.rotation;
-            target.Rotate(90, 0, 0);
+            target.Rotate(-90, 0, 0);
         }
         else {
             target.rotation = other.rotation;
@@ -139,9 +145,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void FindAndBindXRComponents() {
         XROrigin = GameObject.Find("XR Origin");
-        if(photonView.IsMine)
-            mapPosition(XROrigin.transform, gameObject.transform);
-
+        if (photonView.IsMine)
+        {
+            mapPosition(XROrigin.transform, localPlayerInstance.transform);
+        }
         XRHead = GameObject.Find("Main Camera");
         XRleftHand = GameObject.Find("LeftHand Controller");
         XRrightHand = GameObject.Find("RightHand Controller");
@@ -162,4 +169,20 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
     #endregion
 
+    [PunRPC]
+    public void mutePlayerRPC()
+    {
+        AudioSource source = speaker.GetComponent<AudioSource>();
+        //isMuted = false;
+        if (source != null)
+        {
+            Debug.Log("[PlayerController: mutePlayer] - AudioSource found.");
+            source.mute = !source.mute;
+            //isMuted = source.mute;
+        }
+        else
+        {
+            Debug.LogError("[PlayerController: mutePlayer] - AudioSource not found!");
+        };
+    }
 }

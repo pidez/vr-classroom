@@ -16,27 +16,27 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - NotRendererByMainCamera
+  - DistanceGrab
+  - GrababbleObject
+  - ReflectionProbe
+  - PostProcess
+  - GrabHand
+  - Terrain
+  - Triggers
+  - BuildingItem
+  - Parcel
+  - DataTracker
+  - BundleTracker
+  - ActionTracker
+  - NotRendererByTabletCamera
+  - Media_360
+  - Environment
+  - Player
+  - Underground
+  - Bullet
+  - ShootingPlayer
+  - Vehicle
   - 
   - 
   - 
