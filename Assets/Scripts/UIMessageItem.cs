@@ -13,5 +13,4 @@ public class UIMessageItem : MonoBehaviour
     public void SetLine(string message) {
         messageLine.text = message;
     }
-
 }

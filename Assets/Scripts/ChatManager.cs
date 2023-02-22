@@ -41,11 +41,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     [SerializeField] Text chatDisplay;
     [SerializeField] GameObject chatBackground;
     [SerializeField] GameObject openChat;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
