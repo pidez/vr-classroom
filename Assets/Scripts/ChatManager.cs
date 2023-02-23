@@ -26,6 +26,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         //chatClient.ChatRegion = "US";
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(username));
         Debug.Log("Connenting");
+        timer = 0f;
     }
 
     #endregion Setup
@@ -36,7 +37,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     string request = "";    
     string currentChat;
     float timer = 0f;
-    float count = 15f;
+    float count = 30f;
     [SerializeField] TMP_InputField chatField;
     [SerializeField] Text chatDisplay;
     [SerializeField] GameObject chatBackground;
@@ -175,7 +176,10 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     {
         throw new System.NotImplementedException();
     }
-
     #endregion Callbacks
+    public void Azzeratimer()
+    {
+        timer = 0f;
+    }
 }
 
