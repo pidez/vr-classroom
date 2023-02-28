@@ -12,8 +12,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject playerPrefab;
     public GameObject panelPrefab1;
     public GameObject panelPrefab2;
+    public GameObject panelPrefab3;
     public GameObject newPanel1;
     public GameObject newPanel2;
+    public GameObject newPanel3;
     public Test_command test_Command;
     public UIManager uIManager;
     public string nome;
@@ -28,7 +30,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.CurrentRoom.Name == SOLAR_SYSTEM) {
                     spawnPos = GenerateRandomPositionOnXAxis(3f, 0, -25);
                 } else {
-                    spawnPos = GenerateRandomPosition(3f, 1.8f, 3f);
+                    spawnPos = GenerateRandomPosition(1.5f, 1.8f, -34f);
 
                 }
                 GameObject newPlayer = PhotonNetwork.Instantiate(playerPrefab.name, spawnPos, Quaternion.identity, 0);
@@ -36,9 +38,11 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.IsMasterClient)
                     {
-                        newPanel1 = PhotonNetwork.Instantiate(panelPrefab1.name, panelPrefab1.transform.position, Quaternion.identity, 0);
-                        newPanel2 = PhotonNetwork.Instantiate(panelPrefab2.name, panelPrefab2.transform.position, Quaternion.identity, 0);
+                        newPanel1 = PhotonNetwork.Instantiate(panelPrefab1.name, panelPrefab1.transform.position, panelPrefab1.transform.rotation, 0);
+                        newPanel2 = PhotonNetwork.Instantiate(panelPrefab2.name, panelPrefab2.transform.position, panelPrefab2.transform.rotation, 0);
+                        newPanel3 = PhotonNetwork.Instantiate(panelPrefab3.name, panelPrefab3.transform.position, panelPrefab3.transform.rotation, 0);
                         test_Command.Objects_where_spawn.Add(newPanel1);
+                        test_Command.Objects_where_spawn.Add(newPanel2);
                         test_Command.Objects_where_spawn.Add(newPanel2);
                     }
                 }
@@ -71,7 +75,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region private methods
 
     private Vector3 GenerateRandomPosition(float limitX, float Y, float limitZ) {
-        return new Vector3(Random.Range(-limitX, limitX), Y, Random.Range(-limitZ, limitZ));
+        return new Vector3(Random.Range(limitX-2, limitX+2), Y, Random.Range(limitZ-2, limitZ+2));
     }
 
     private Vector3 GenerateRandomPositionOnXAxis(float limitX, float Y, float Z) {
