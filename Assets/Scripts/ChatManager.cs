@@ -79,12 +79,15 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void SubmitPublicRequestTalk()
     {
-        timer = 0f;
-        request = "richiede di parlare";
-        chatClient.PublishMessage("RegionChannel", request);
-        request = "";
-        chatBackground.SetActive(true);
-        openChat.SetActive(false);  
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            timer = 0f;
+            request = "richiede di parlare";
+            chatClient.PublishMessage("RegionChannel", request);
+            request = "";
+            chatBackground.SetActive(true);
+            openChat.SetActive(false);
+        }    
     }
     public void TypeChatOnValueChange()
     {

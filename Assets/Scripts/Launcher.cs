@@ -25,6 +25,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     public TMP_InputField usernameInputField;
     public TMP_InputField passwordInputField;
 
+    public GameObject pannelloStud;
+    public GameObject pannelloTeach;
+    
+    float timer = 0f;
+    float count = 2f;
 
     void Awake() {
         // #Critical
@@ -37,8 +42,17 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Start() {
         playAsTeacherButton.onClick.AddListener(ConnectAsTeacher);
         playAsStudentButton.onClick.AddListener(Connect);
-    }
 
+    }
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer > count)
+        {
+            pannelloStud.SetActive(false);
+            pannelloTeach.SetActive(false);
+        }
+    }
     public void ConnectAsTeacher() {
         string username = usernameInputField.text;
         string password = passwordInputField.text;
@@ -46,10 +60,25 @@ public class Launcher : MonoBehaviourPunCallbacks
             isTeacher = true;
             Connect();
         }
+        else
+        {
+            pannelloTeach.SetActive(true);
+            pannelloStud.SetActive(false);
+            timer = 0f;
+        }
     }
     public void Connect() {
+       if (usernameInputField.text != "")
+       {
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.GameVersion = gameVersion;
+       }
+       else
+       {
+            pannelloStud.SetActive(true);
+            pannelloTeach.SetActive(false);
+            timer = 0f;
+        }
     }
 
     public override void OnConnectedToMaster() {

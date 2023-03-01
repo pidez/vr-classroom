@@ -8,12 +8,14 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using TMPro;
+using UnityEngine.UIElements;
+using System.Threading;
 
 public class TeacherLobbyManager : LobbyManager
 {
 
     [SerializeField]
-    public Button createRoomButton;
+    public UnityEngine.UI.Button createRoomButton;
 
     [SerializeField]
     public TMP_InputField roomNameInputField;
@@ -24,6 +26,10 @@ public class TeacherLobbyManager : LobbyManager
     [SerializeField]
     TMP_Text lobbyMessage;
 
+    [SerializeField]
+    GameObject pannelloErrore;
+    float timer = 0f;
+    float count = 2f;
 
     void Start() {
         PhotonNetwork.JoinLobby();
@@ -32,17 +38,26 @@ public class TeacherLobbyManager : LobbyManager
         base.startCreateRoomCoroutine();
     }
 
-
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer > count)
+        {
+            pannelloErrore.SetActive(false);
+        }
+    }
     #region private methods
 
     private void HelpCreateRoom() {
         string roomName = roomNameInputField.text;
-        if (roomName != null)
+        if (roomName != "")
         {
             PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
         }
         else
         {
+            pannelloErrore.SetActive(true);
+            timer = 0f;
             Debug.Log("Nome Stanza non valido");
         }
     }
