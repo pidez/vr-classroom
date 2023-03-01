@@ -27,7 +27,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public GameObject pannelloStud;
     public GameObject pannelloTeach;
-    
+
     float timer = 0f;
     float count = 2f;
 
@@ -70,8 +70,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void Connect() {
        if (usernameInputField.text != "")
        {
-        PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.GameVersion = gameVersion;
+                PhotonNetwork.ConnectUsingSettings();
+                PhotonNetwork.GameVersion = gameVersion;
        }
        else
        {
