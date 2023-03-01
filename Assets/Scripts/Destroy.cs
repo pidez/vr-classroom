@@ -24,22 +24,10 @@ public class Destroy : MonoBehaviourPunCallbacks
 
     public UnityEvent OnPress = new UnityEvent();
 
-    public UnityEvent OnRelease = new UnityEvent();
-
     public string nomePannello;
 
     // Update is called once per frame
 
-    private void Awake()
-    {
-        action.canceled += Released;
-    }
-
-    private void OnDestroy()
-    {
-        action.canceled -= Released;
-
-    }
 
     void Update()
     {
@@ -78,9 +66,4 @@ public class Destroy : MonoBehaviourPunCallbacks
     {
         OnPress.Invoke();
     }
-    private void Released(InputAction.CallbackContext context)
-    {
-        OnRelease.Invoke();
-    }
-
 }

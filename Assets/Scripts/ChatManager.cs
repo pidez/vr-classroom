@@ -126,7 +126,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         joinChatButton.SetActive(true);
         chatPanel.SetActive(false);
     }
-
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         timer = 0f;
