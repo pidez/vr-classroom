@@ -26,6 +26,7 @@ public class Destroy : MonoBehaviourPunCallbacks
 
     public string nomePannello;
 
+    public bool var1;
     // Update is called once per frame
 
 
@@ -35,7 +36,7 @@ public class Destroy : MonoBehaviourPunCallbacks
         {
             xR = GameObject.Find("LeftHand Controller").GetComponent<XRRayInteractor>();
             RaycastHit ray;
-            bool var1 = xR.enabled;
+            var1 = xR.enabled;
             if (xR.TryGetCurrent3DRaycastHit(out ray))
             {
                 cosaColpisco = ray.collider.gameObject;
@@ -66,4 +67,5 @@ public class Destroy : MonoBehaviourPunCallbacks
     {
         OnPress.Invoke();
     }
+
 }

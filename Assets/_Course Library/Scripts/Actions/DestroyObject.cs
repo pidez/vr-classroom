@@ -8,10 +8,11 @@ using Unity.VisualScripting;
 /// </summary>
 public class DestroyObject : MonoBehaviourPunCallbacks
 {
+    public Destroy destroy;
     public void Destroy()
     {
-        GameObject Sphere1 = GameObject.Find("Sphere(Clone)");
-        GameObject Pannello = GameObject.Find(Sphere1.GetComponent<Destroy>().nomePannello);
+        string nomepannello = destroy.nomePannello;
+        GameObject Pannello = GameObject.Find(nomepannello);
         if (Pannello.GetComponent<ContaBandiere>().numerobandiere == 1)
         {
             Pannello.GetComponent<ContaBandiere>().numerobandiere--;

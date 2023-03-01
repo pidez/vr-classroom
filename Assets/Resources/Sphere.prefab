@@ -248,10 +248,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnRelease:
-    m_PersistentCalls:
-      m_Calls: []
   nomePannello: 
+  var1: 0
 --- !u!114 &6951395406982370319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56b982c85b468f45a3260808d7ea637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroy: {fileID: 6951395406982370304}
 --- !u!114 &6951395406982370306
 MonoBehaviour:
   m_ObjectHideFlags: 0
