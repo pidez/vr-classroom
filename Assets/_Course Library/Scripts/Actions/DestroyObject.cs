@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 /// </summary>
 public class DestroyObject : MonoBehaviourPunCallbacks
 {
-    public Destroy destroy;
+    public Object_Destroyer destroy;
     public void Destroy()
     {
         string nomepannello = destroy.nomePannello;

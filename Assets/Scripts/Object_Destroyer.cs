@@ -12,11 +12,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Destroy : MonoBehaviourPunCallbacks
+public class Object_Destroyer : MonoBehaviourPunCallbacks
 {
-    public XRRayInteractor xR;
+    public XRRayInteractor XRRayInteractor;
 
-    public GameObject Object;
+    public GameObject Bandierina;
 
     public GameObject cosaColpisco;
 
@@ -26,21 +26,21 @@ public class Destroy : MonoBehaviourPunCallbacks
 
     public string nomePannello;
 
-    public bool var1;
+    private bool var1;
     // Update is called once per frame
 
 
     void Update()
-    {
+    { 
         if (PhotonNetwork.IsMasterClient)
         {
-            xR = GameObject.Find("LeftHand Controller").GetComponent<XRRayInteractor>();
+            XRRayInteractor = GameObject.Find("LeftHand Controller").GetComponent<XRRayInteractor>();
             RaycastHit ray;
-            var1 = xR.enabled;
-            if (xR.TryGetCurrent3DRaycastHit(out ray))
+            var1 = XRRayInteractor.enabled;
+            if (XRRayInteractor.TryGetCurrent3DRaycastHit(out ray))
             {
                 cosaColpisco = ray.collider.gameObject;
-                if (ray.collider.gameObject == Object)
+                if (ray.collider.gameObject == Bandierina)
                 {
 
                     if (var1)
@@ -55,7 +55,7 @@ public class Destroy : MonoBehaviourPunCallbacks
                     action.started += Pressed;
 
                 }
-                if (ray.collider.gameObject != Object)
+                if (ray.collider.gameObject != Bandierina)
                 {
                     action.Disable();
                 }

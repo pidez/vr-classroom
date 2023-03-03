@@ -5897,13 +5897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: debb8446d4471b74fa50bf38d8021ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactor: {fileID: 649406083}
-  originalObject: {fileID: 6951395406982370314, guid: a0ee338fddb906949a7890f70a87441b,
+  XRRayInteractor: {fileID: 649406083}
+  bandierina: {fileID: 6951395406982370314, guid: a0ee338fddb906949a7890f70a87441b,
     type: 3}
   spawnPosition: {fileID: 649406079}
   Objects_where_spawn: []
-  groundPt: {x: 0, y: 0, z: 0}
-  numero_bandiere: 0
   action:
     m_Name: Action
     m_Type: 0
@@ -5936,9 +5934,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnRelease:
-    m_PersistentCalls:
-      m_Calls: []
   cosaColpisco: {fileID: 0}
 --- !u!1 &676394040
 GameObject:
@@ -11396,7 +11391,7 @@ MonoBehaviour:
   newPanel1: {fileID: 0}
   newPanel2: {fileID: 0}
   newPanel3: {fileID: 0}
-  test_Command: {fileID: 649406085}
+  obj_spawner: {fileID: 649406085}
   uIManager: {fileID: 951105808}
   nome: 
 --- !u!4 &1315743378

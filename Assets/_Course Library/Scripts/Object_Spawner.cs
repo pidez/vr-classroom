@@ -9,36 +9,32 @@ using UnityEngine.XR.Interaction.Toolkit;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Test_command : MonoBehaviourPunCallbacks
+public class Object_Spawner : MonoBehaviourPunCallbacks
 {
-    public XRRayInteractor interactor;
+    public XRRayInteractor XRRayInteractor;
 
     [Tooltip("The object that will be spawned")]
-    public GameObject originalObject = null;
+    public GameObject bandierina = null;
     [Tooltip("The transform where the object is spanwed")]
     public Transform spawnPosition = null;
 
     public List<GameObject> Objects_where_spawn;
 
-    public Vector3 groundPt;
-
-    public int numero_bandiere;
+    private Vector3 groundPt;
 
     public InputAction action = null;
 
     public UnityEvent OnPress = new UnityEvent();
 
-    public UnityEvent OnRelease = new UnityEvent();
-
     public GameObject cosaColpisco;
     public void Update()
     {
         RaycastHit res;
-        bool var = interactor.enabled;
+        bool var = XRRayInteractor.enabled;
 
         if (PhotonNetwork.IsMasterClient)
         {
-            if (interactor.TryGetCurrent3DRaycastHit(out res))
+            if (XRRayInteractor.TryGetCurrent3DRaycastHit(out res))
             {
                 cosaColpisco = res.collider.gameObject;
                 if (Objects_where_spawn.Contains(res.collider.gameObject))
@@ -74,9 +70,9 @@ public class Test_command : MonoBehaviourPunCallbacks
     public void SpawnObj()
     {
         //Instantiate(originalObject, groundPt, originalObject.transform.rotation, parent.transform);
-        GameObject bandiera = PhotonNetwork.Instantiate(originalObject.name, groundPt, originalObject.transform.rotation, 0);
+        GameObject bandiera = PhotonNetwork.Instantiate(bandierina.name, groundPt, bandierina.transform.rotation, 0);
         cosaColpisco.GetComponent<ContaBandiere>().numerobandiere++;
-        bandiera.GetComponent<Destroy>().nomePannello = cosaColpisco.name;
+        bandiera.GetComponent<Object_Destroyer>().nomePannello = cosaColpisco.name;
     }
 
     private void Pressed(InputAction.CallbackContext context)

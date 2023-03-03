@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 6951395406982370306}
   - component: {fileID: 6951395406982370305}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Bandierina
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,8 +213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a0b49f04d8a8941aa9160ab33dc4d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xR: {fileID: 0}
-  Object: {fileID: 6951395406982370314}
+  XRRayInteractor: {fileID: 0}
+  Bandierina: {fileID: 6951395406982370314}
   cosaColpisco: {fileID: 0}
   action:
     m_Name: Action
@@ -249,7 +249,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   nomePannello: 
-  var1: 0
 --- !u!114 &6951395406982370319
 MonoBehaviour:
   m_ObjectHideFlags: 0

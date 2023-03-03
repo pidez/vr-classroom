@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject newPanel1;
     public GameObject newPanel2;
     public GameObject newPanel3;
-    public Test_command test_Command;
+    public Object_Spawner obj_spawner;
     public UIManager uIManager;
     public string nome;
     void Start() {
@@ -41,9 +41,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                         newPanel1 = PhotonNetwork.Instantiate(panelPrefab1.name, panelPrefab1.transform.position, panelPrefab1.transform.rotation, 0);
                         newPanel2 = PhotonNetwork.Instantiate(panelPrefab2.name, panelPrefab2.transform.position, panelPrefab2.transform.rotation, 0);
                         newPanel3 = PhotonNetwork.Instantiate(panelPrefab3.name, panelPrefab3.transform.position, panelPrefab3.transform.rotation, 0);
-                        test_Command.Objects_where_spawn.Add(newPanel1);
-                        test_Command.Objects_where_spawn.Add(newPanel2);
-                        test_Command.Objects_where_spawn.Add(newPanel2);
+                        obj_spawner.Objects_where_spawn.Add(newPanel1);
+                        obj_spawner.Objects_where_spawn.Add(newPanel2);
+                        obj_spawner.Objects_where_spawn.Add(newPanel2);
                     }
                 }
                 Transform netPlayerCanvas = newPlayer.transform.Find("Head/NameCanvasContainer/Canvas/Name Panel/Player Name");
