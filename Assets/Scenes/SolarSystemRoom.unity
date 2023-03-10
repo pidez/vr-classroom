@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0014785795, g: 0.0013591028, b: 0.0012890887, a: 1}
+  m_IndirectSpecularColor: {r: 0.001441596, g: 0.0013888016, b: 0.0013739044, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -881,9 +881,11 @@ MonoBehaviour:
     type: 3}
   panelPrefab1: {fileID: 0}
   panelPrefab2: {fileID: 0}
+  panelPrefab3: {fileID: 0}
   newPanel1: {fileID: 0}
   newPanel2: {fileID: 0}
-  test_Command: {fileID: 0}
+  newPanel3: {fileID: 0}
+  obj_spawner: {fileID: 0}
   uIManager: {fileID: 0}
   nome: 
 --- !u!4 &764933853
@@ -1352,7 +1354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3edec73f03b27744a11fcc80c86af5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
 --- !u!114 &854141517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,9 +2214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: debb8446d4471b74fa50bf38d8021ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactor: {fileID: 995233557}
-  originalObject: {fileID: 6951395406982370314, guid: a0ee338fddb906949a7890f70a87441b,
-    type: 3}
+  XRRayInteractor: {fileID: 0}
+  bandierina: {fileID: 0}
   spawnPosition: {fileID: 995233553}
   Objects_where_spawn:
   - {fileID: 752273688}
@@ -2226,8 +2226,6 @@ MonoBehaviour:
   - {fileID: 729670397}
   - {fileID: 143283187}
   - {fileID: 1758503728}
-  groundPt: {x: 0, y: 0, z: 0}
-  numero_bandiere: 0
   action:
     m_Name: Action
     m_Type: 0
@@ -2260,9 +2258,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnRelease:
-    m_PersistentCalls:
-      m_Calls: []
   cosaColpisco: {fileID: 0}
 --- !u!1 &1328489937
 GameObject:
@@ -3603,6 +3598,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Device Simulator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187037, guid: 9f5a24a380916d14db9775daab4fe333,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f5a24a380916d14db9775daab4fe333, type: 3}

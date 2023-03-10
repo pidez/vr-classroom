@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/AudioTest.unity
     guid: e9d5ac5fb05385d4aa0245ea467a6030
-  m_configObjects: {}
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 86ce9810e54195747a7f25e780e199b1,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 7db3c3f83532ec94bb0ce8d0892a0dc6,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: ae1c21e041618d441adf0bde38e79380,
+      type: 2}

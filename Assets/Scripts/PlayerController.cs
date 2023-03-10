@@ -97,8 +97,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool mutePlayer(bool IsMuted)
     {
-       PV.RPC("mutePlayerRPC", RpcTarget.AllBuffered);
-       return !IsMuted;
+        PV.RPC("mutePlayerRPC", RpcTarget.AllBuffered);
+        return !IsMuted;
     }
 
     //Questo metodo è fatto per essere chiamato da un altro componente, per stabilire

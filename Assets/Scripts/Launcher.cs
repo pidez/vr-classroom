@@ -68,14 +68,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
     public void Connect() {
-       if (usernameInputField.text != "")
-       {
-                PhotonNetwork.ConnectUsingSettings();
-                PhotonNetwork.GameVersion = gameVersion;
-       }
-       else
-       {
-            pannelloStud.SetActive(true);
+        if (usernameInputField.text != "") {
+            PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.GameVersion = gameVersion;
+        } else {
+            // pannelloStud.SetActive(true);
+            usernameInputField.text = "DefaultUser";
             pannelloTeach.SetActive(false);
             timer = 0f;
         }
